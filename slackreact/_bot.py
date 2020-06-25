@@ -91,7 +91,7 @@ class SlackBot:
             try:
                 response = await self.api_call(method="rtm.connect")
                 if not response["ok"]:
-                    return
+                    raise RuntimeError(f"Failed to connect to the RTM API. Response: {response}")
                 async with websockets.connect(response["url"]) as ws:
                     self.me = response["self"]["id"]
                     await asyncio.gather(self.load_user_map(), self.load_channel_map())
